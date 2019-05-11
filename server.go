@@ -13,15 +13,15 @@ import (
 // Server struct,
 // handlers hang directly on the server
 type Server struct {
-	router  *chi.Mux
-	handler *http.HandlerFunc
-	db      DB
+	router *chi.Mux
+	// handler *http.HandlerFunc
+	db DB
 }
 
 // InitRoutes ...
 // where we define all the routes for the API Server
 func (server *Server) InitRoutes() {
-	server.router.Get("/index", server.RootHandler)
+	server.router.Get("/routes", server.RoutesHandler)
 
 	server.router.Get("/test", server.TestGetHandler)
 	server.router.Post("/test", server.TestPostHandler)
@@ -30,9 +30,9 @@ func (server *Server) InitRoutes() {
 
 }
 
-// RootHandler ...
-// index page of the server
-func (server *Server) RootHandler(w http.ResponseWriter, r *http.Request) {
+// RoutesHandler ...
+// routes listing page of the server
+func (server *Server) RoutesHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(418)
 	json.NewEncoder(w).Encode(docgen.JSONRoutesDoc(server.router))
 }
